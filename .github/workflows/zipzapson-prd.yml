@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 12.21.0
       - name: INSTALL AWS CLIENT
-        run: pip install awscli
+        run: sudo apt-get install python3-setuptools && python3 -m pip install --user awscli
       - name: INSTALL E BUILD
         run: npm install && npm run build
         env:
