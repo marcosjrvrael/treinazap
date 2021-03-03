@@ -21,7 +21,7 @@ jobs:
         env:
           CI: "false"
       - name: DEPLOY AWS
-        run: cd build && ACCESS_KEY_ID=${CHAVE} ACCESS_KEY=${SENHA} aws s3 sync . s3://zipazson --acl public-read --delete
+        run: cd build && AWS_ACCESS_KEY_ID=${CHAVE} AWS_SECRET_ACCESS_KEY=${SENHA} aws s3 sync . s3://zipazson --acl public-read --delete
         env:
           CHAVE: ${{ secrets.ACCESS_KEY }}
           SENHA: ${{ secrets.SECRET_KEY }}
