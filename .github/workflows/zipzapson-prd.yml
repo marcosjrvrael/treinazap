@@ -13,6 +13,8 @@ jobs:
         run: doppler secrets download --nofile --format=docker >>$GITHUB_ENV;
         env: 
             DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+      - name: teste doppler
+        run: echo $BUCKET_NAME
       - uses: actions/setup-node@v1
         with:
           node-version: 12.21.0
