@@ -4,8 +4,11 @@
 name: ZipZapson-PRD - PARA S3
 
 on:
-  release:
-    types: [commit]
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - master
 
 jobs:
   build:
