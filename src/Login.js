@@ -30,7 +30,7 @@ function Login() {
                 alt="WhatsApp Logo" 
             />
             <div className="login__text">
-                <h1>Faça login no TreinaZap</h1>
+                <h1>Faça login no ZipZapson</h1>
             </div>
             
             <div className="login__withGoogle" onClick={signInGoogle}>
