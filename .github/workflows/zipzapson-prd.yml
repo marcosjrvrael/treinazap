@@ -20,8 +20,8 @@ jobs:
         run: npm install && npm run build
         env:
           CI: "false"
-      - name: DEPLOY AWS
-        run: cd build && AWS_ACCESS_KEY_ID=${CHAVE} AWS_SECRET_ACCESS_KEY=${SENHA} aws s3 sync . s3://zipazson --acl public-read --delete
+      - name: DEPLOY S3
+        run: cd build/ && AWS_ACCESS_KEY_ID=${CHAVE} AWS_SECRET_ACCESS_KEY=${SENHA} aws s3 sync . s3://zipazson --acl public-read --delete
         env:
           CHAVE: ${{ secrets.ACCESS_KEY }}
           SENHA: ${{ secrets.SECRET_KEY }}
