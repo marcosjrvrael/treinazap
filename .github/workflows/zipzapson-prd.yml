@@ -27,4 +27,4 @@ jobs:
       - name: Deploy to S3
         run: cd build && AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws s3 sync . s3://zipzapson --acl public-read --delete
       - name: clean cache
-        run: AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws cloudfront invalidation --distribution-id E23C8YM5O2A8F9 --path '/*'
+        run: AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws cloudfront create-invalidation --distribution-id E23C8YM5O2A8F9 --path '/*'
