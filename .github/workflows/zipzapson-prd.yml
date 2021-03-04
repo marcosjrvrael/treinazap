@@ -25,12 +25,4 @@ jobs:
         env:
            CI: "false"
       - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --delete
-        env:
-          AWS_S3_BUCKET: $BUCKET_NAME
-          AWS_ACCESS_KEY_ID: $ACCESS_KEY
-          AWS_SECRET_ACCESS_KEY: $SECRET_KEY
-       #   AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "build"
+        run: cd build && AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws s3 sync . s3://zipzapson --acl public-read --delete
