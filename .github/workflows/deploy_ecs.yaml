@@ -22,10 +22,29 @@ jobs:
         run: npm install && npm run build
         env:
            CI: "false"
-      - name: baixando sonar
-        run: wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip && unzip sonar-scanner-cli-4.6.0.2311-linux.zip
-      - name: analysis code
-        run: ./sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -Dsonar.projectKey=zipzapson -Dsonar.sources=. -Dsonar.host.url=http://sonar.zipzapson.cf/ -Dsonar.login=c1d3b4021b83f5be98937082cfdddc3fff52bb62
-   
-      - name: clean cache
-        run: AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws cloudfront create-invalidation --distribution-id E23C8YM5O2A8F9 --path '/*'
+#       - name: baixando sonar
+#         run: wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip && unzip sonar-scanner-cli-4.6.0.2311-linux.zip
+#       - name: analysis code
+#         run: ./sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -Dsonar.projectKey=zipzapson -Dsonar.sources=. -Dsonar.host.url=http://sonar.zipzapson.cf/ -Dsonar.login=c1d3b4021b83f5be98937082cfdddc3fff52bb62
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: 741523481267.dkr.ecr.us-east-1.amazonaws.com/zipzapson
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t zipzapson
+          docker tag zipzapson:latest $ECR_REPOSITORY:latest
+          docker push $ECR_REPOSITORY:latest
+        
+#       - name: clean cache
+#         run: AWS_ACCESS_KEY_ID=$ACCESS_KEY AWS_SECRET_ACCESS_KEY=$SECRET_KEY aws cloudfront create-invalidation --distribution-id E23C8YM5O2A8F9 --path '/*'
