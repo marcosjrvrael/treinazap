@@ -42,7 +42,7 @@ jobs:
           ECR_REPOSITORY: 741523481267.dkr.ecr.us-east-1.amazonaws.com/zipzapson
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t zipzapson
+          docker build -t zipzapson .
           docker tag zipzapson:latest $ECR_REPOSITORY:latest
           docker push $ECR_REPOSITORY:latest
         
